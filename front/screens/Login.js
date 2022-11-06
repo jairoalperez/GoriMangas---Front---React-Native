@@ -30,9 +30,9 @@ const Login = () => {
           username: log.username,
           password: log.pass
         },
-        console.log('registro exitoso')
+        console.log('Conexion Satisfactoria')
         )
-        console.log(res)
+        console.log(res.data)
       }
       fetchlogin()
     }

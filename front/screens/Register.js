@@ -2,6 +2,7 @@ import React from 'react'
 import { View, StyleSheet, Text, TouchableOpacity, Alert, TextInput } from "react-native";
 import { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
+import axios from 'axios';
 
 const Register = () => {
 
@@ -23,6 +24,23 @@ const Register = () => {
     //Se utiliza para setear los parametros del state user
     const handleChangeText = (name, value) => {
         setUser({ ...user, [name]: value })
+    }
+
+    //HTTP Register
+    const registerapp = () => {
+      const fetchregister = async () => {
+        const res = await axios.post('https://backend-mangaread.herokuapp.com/registro', {
+          username: user.user,
+          correo: user.email,
+          nombre: user.name,
+          contraseña: user.pass,
+          verificarclave: user.passc
+        },
+        console.log('Conexion Satisfactoria')
+        )
+        console.log(res.data)
+      }
+      fetchregister()
     }
 
 
@@ -78,6 +96,7 @@ const Register = () => {
                   if(user.pass === user.passc){
 
                     console.log(user.user+' '+user.name+' '+user.email+' '+user.pass)
+                    registerapp()
 
                   }else{
                     console.log('Las contraseñas deben coincidir')
