@@ -91,8 +91,6 @@ const Register = () => {
                     </Text>
             </TouchableOpacity>
 
-            
-
         </View>
     )
 }

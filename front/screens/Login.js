@@ -2,6 +2,7 @@ import React from 'react'
 import {View, StyleSheet, Text, TouchableOpacity, TextInput, Alert} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useState, useEffect } from "react";
+import axios from 'axios';
 
 const Login = () => {
 
@@ -21,6 +22,20 @@ const Login = () => {
     const handleChangeText = (username, value) => {
         setLog({...log, [username]: value})
       }
+
+    //HTTP Login
+    const loginapp = () => {
+      const fetchlogin = async () => {
+        const res = await axios.post('https://backend-mangaread.herokuapp.com/login', {
+          username: log.username,
+          password: log.pass
+        },
+        console.log('registro exitoso')
+        )
+        console.log(res)
+      }
+      fetchlogin()
+    }
 
   return (
     <View style={styles.container}>
@@ -47,7 +62,9 @@ const Login = () => {
             <TouchableOpacity
                 onPress={() => {
 
-                    console.log(log.username+' '+log.pass)
+                    loginapp()
+
+                  
 
                 }}
                 style={styles.button}>
