@@ -37,6 +37,7 @@ const Login = () => {
         Alert.alert('Login Satisfactorio')
         console.log('Login Satisfactorio')
         getuser()
+        navigation.navigate('Profile')
       }else {
         Alert.alert('Datos Incorrectos')
         console.log('Datos Incorrectos')
@@ -54,6 +55,8 @@ const Login = () => {
           const result = datos.find(item => item.username === log.username)
           localStorage.setItem('username', result.username)
           localStorage.setItem('userId', result.id_usuario)
+          localStorage.setItem('email', result.correo)
+          localStorage.setItem('name', result.nombre)
     }
     fetchgetuser()
   }
@@ -84,17 +87,32 @@ const Login = () => {
         onPress={() => {
 
           loginapp()
-          
-
-
-
-
-
 
         }}
         style={styles.button}>
         <Text style={styles.textbutton}>
           Iniciar Sesion
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('Register')
+        }}
+        style={styles.buttonregister}>
+        <Text style={styles.textbuttonr}>
+          Registrarse
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('Profile')
+          localStorage.setItem('userId', 'nouser')
+        }}
+        style={styles.buttonguest}>
+        <Text style={styles.textbuttonl}>
+          Entrar sin Cuenta
         </Text>
       </TouchableOpacity>
 
@@ -148,14 +166,45 @@ const styles = StyleSheet.create({
     backgroundColor: "darkgoldenrod",
     padding: 10,
     marginTop: 30,
+    marginBottom: 100,
     borderRadius: 40,
     justifyContent: "center",
     alignItems: "center",
     height: 50,
-    width: 150,
+    width: 300,
 
   },
   textbutton: {
+    fontSize: 20,
+    color: "white",
+
+  },
+  buttonregister: {
+    backgroundColor: 'black',
+    padding: 10,
+    borderRadius: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    height: 50,
+    width: 200,
+
+  },
+  buttonguest: {
+    backgroundColor: 'white',
+    padding: 10,
+    borderRadius: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    height: 50,
+    width: 200,
+    marginTop: 10
+
+  },
+  textbuttonl: {
+    fontSize: 20,
+  },
+
+  textbuttonr: {
     fontSize: 20,
     color: "white",
 
