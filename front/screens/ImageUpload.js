@@ -26,13 +26,16 @@ const ImageUpload = () => {
     }
 
     const uploadImage = () => {
-        const fetchUpload = async () => {
+        /*const fetchUpload = async () => {
 
             const res = await axios.post('/upload-image', data, {
 
             })
         }
-        fetchUpload()
+        fetchUpload()*/
+
+        console.log(image)
+
     }
 
     const loginapp = () => {
