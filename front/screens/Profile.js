@@ -35,6 +35,18 @@ const Profile = () => {
                         <Text style={styles.nombre}>{localStorage.getItem('name')}</Text>
                     </View>
 
+                    <View style={styles.containerbotones}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                console.log('Presionaste el boton de Configuracion')
+                            }}
+                            style={styles.button}>
+                            <Text style={styles.textbutton}>
+                                Configuracion
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+
                     <Text style={styles.mangas}>
                         Mangas Guardados
                     </Text>
@@ -67,14 +79,14 @@ const styles = StyleSheet.create({
     containerusername: {
         justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: "gold",
+        backgroundColor: "whitesmoke",
         width: '100%'
 
     },
     containerbio: {
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
-        backgroundColor: "gold",
+        backgroundColor: "whitesmoke",
         textAlign: 'left',
         padding: 10,
         marginBottom: 5,
@@ -84,7 +96,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: "gold",
+        backgroundColor: "whitesmoke",
         marginBottom: 20
 
     },
@@ -102,6 +114,21 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         fontWeight: 'bold',
         padding: 10,
+
+    },
+    textbutton: {
+        fontSize: 20,
+        color: "white",
+
+    },
+    button: {
+        backgroundColor: "darkslategrey",
+        padding: 10,
+        borderRadius: 40,
+        justifyContent: "center",
+        alignItems: "center",
+        height: 50,
+        width: 150,
 
     },
     mangas: {
