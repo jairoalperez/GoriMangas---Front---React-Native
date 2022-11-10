@@ -1,11 +1,14 @@
-import { View, Text, StyleSheet, Touchable, TouchableOpacity, Image } from 'react-native'
+import { View, Text, StyleSheet, Touchable, TouchableOpacity, Image} from 'react-native'
 import React, { useState } from 'react'
 import * as ImagePicker from 'expo-image-picker'
+//import {launchImageLibrary} from 'react-native-image-picker';
 import axios from 'axios'
 
 const ImageUpload = () => {
 
     const [image, setImage] = useState('')
+
+    
 
     const openLibrary = async () => {
         const {status} = await ImagePicker.requestCameraPermissionsAsync();
@@ -19,22 +22,49 @@ const ImageUpload = () => {
                 allowsEditing: true
             })
             if (!res.cancelled){
-                console.log(res)
-                setImage(res.uri)
+                setImage(res)
             }
         }
     }
 
+    /*const openGallery=()=> {
+        const result = await launchCameraAsync()
+    }*/
+
     const uploadImage = () => {
-        /*const fetchUpload = async () => {
+        const fetchUpload = async () => {
 
-            const res = await axios.post('/upload-image', data, {
-
+            const formData = new FormData()
+            formData.append('image', {
+                name: new Date() + '_image',
+                uri: image.uri,
+                type: 'file'
             })
-        }
-        fetchUpload()*/
 
-        console.log(image)
+            try {
+
+                const res = await axios.post('https://backend-mangaread.herokuapp.com/upload', formData, {
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'multipart/form-data'
+                }
+            },
+                console.log('conexion satisfactoria')
+            )
+            console.log(res.data)
+
+            } catch (error) {
+                console.log(error.message)
+            }
+
+            
+            
+        }
+        fetchUpload()
+
+        //console.log(image)
+
+        
 
     }
 
@@ -73,7 +103,7 @@ const ImageUpload = () => {
                     </Text>
                 </TouchableOpacity>
                 <View style={styles.containerimg}>
-                    {image ? (<Image source={{uri: image}} style={styles.image}/>):null}
+                    {image ? (<Image source={{uri: image.uri}} style={styles.image}/>):null}
                 </View>
                 
                 {image? (
