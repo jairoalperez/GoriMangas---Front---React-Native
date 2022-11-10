@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Touchable, TouchableOpacity, Image} from 'react-native'
+import { View, Text, StyleSheet, Touchable, TouchableOpacity, Image } from 'react-native'
 import React, { useState } from 'react'
 import * as ImagePicker from 'expo-image-picker'
 //import {launchImageLibrary} from 'react-native-image-picker';
@@ -8,44 +8,93 @@ const ImageUpload = () => {
 
     const [image, setImage] = useState('')
 
-    
+
 
     const openLibrary = async () => {
-        const {status} = await ImagePicker.requestCameraPermissionsAsync();
-        
+        const { status } = await ImagePicker.requestCameraPermissionsAsync();
+
         if (status !== 'granted') {
             alert('Permiso para la camara denegado')
         }
         if (status === 'granted') {
             const res = await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 allowsEditing: true
             })
-            if (!res.cancelled){
+            if (!res.cancelled) {
                 setImage(res)
             }
         }
     }
 
-    /*const openGallery=()=> {
-        const result = await launchCameraAsync()
-    }*/
+    const uploadImage = async () => {
 
-    const uploadImage = () => {
-        const fetchUpload = async () => {
+        /*let localUri = image.uri;
+        let filename = new Date()+'_page';
+        let type = 'image/jpg';
 
-            const formData = new FormData()
-            formData.append('image', {
-                name: new Date() + '_image',
-                uri: image.uri,
-                type: 'file'
-            })
+        let picdata = {
+            
+        }*/
+
+
+
+        //console.log(mangadata)
+
+
+        //formData.append('title', 'fotolinda')
+        //formData.append('username', localStorage.getItem('username'))
+
+        const mangadata = {
+            name: new Date().getTime() + '_manga',
+            uri: image.uri,
+            type: 'image/jpg',
+        }
+
+        const mdstring = JSON.stringify(mangadata)
+
+        const formData = new FormData()
+        formData.append("manga", mangadata)
+
+        try {
+            const res = await axios.post('https://backend-mangaread.herokuapp.com/upload', formData, {
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'multipart/form-data'
+                }
+            },
+                console.log('conexion satisfactoria')
+            )
+            console.log(res.data)
+
+        /*const res = await fetch('https://backend-mangaread.herokuapp.com/upload', {
+            method: 'post',
+            body: 'formData',
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "multipart/form-data"
+            }
+        })
+        .then((res) => res.json())
+        .then((jsonRes) => {
+            console.log(jsonRes)
+        })*/
+
+        }catch (error) {
+            console.log(error.message)
+        }
+
+
+
+        //console.log(JSON.stringify(formData.get('image')))
+
+
+        /*const fetchUpload = async () => {
 
             try {
 
                 const res = await axios.post('https://backend-mangaread.herokuapp.com/upload', formData, {
                 headers: {
-                    Accept: 'application/json',
                     'Content-Type': 'multipart/form-data'
                 }
             },
@@ -60,36 +109,40 @@ const ImageUpload = () => {
             
             
         }
-        fetchUpload()
+        fetchUpload()*/
 
         //console.log(image)
 
-        
+
 
     }
 
     const loginapp = () => {
         const fetchlogin = async () => {
-          const res = await axios.post('https://backend-mangaread.herokuapp.com/login', {
-            username: log.username,
-            password: log.pass
-          },
-            console.log('Conexion Satisfactoria'),
-          )
-          console.log(res.data)
-          if(res.data == 1) {
-            Alert.alert('Login Satisfactorio')
-            console.log('Login Satisfactorio')
-            getuser()
-            navigation.navigate('Profile')
-          }else {
-            Alert.alert('Datos Incorrectos')
-            console.log('Datos Incorrectos')
-          }
-          
+            const res = await axios.post('https://backend-mangaread.herokuapp.com/login', {
+                username: log.username,
+                password: log.pass
+            },
+                console.log('Conexion Satisfactoria'),
+            )
+            console.log(res.data)
+            if (res.data == 1) {
+                Alert.alert('Login Satisfactorio')
+                console.log('Login Satisfactorio')
+                getuser()
+                navigation.navigate('Profile')
+            } else {
+                Alert.alert('Datos Incorrectos')
+                console.log('Datos Incorrectos')
+            }
+
         }
         fetchlogin()
-      }
+    }
+
+    const fillFormData = () => {
+
+    }
 
 
 
@@ -97,22 +150,26 @@ const ImageUpload = () => {
     return (
         <View style={styles.container}>
             <View style={styles.containerimg}>
+
+
+
+
                 <TouchableOpacity onPress={openLibrary} style={styles.uploadBtn}>
                     <Text style={styles.textbutton}>
                         Upload Image
                     </Text>
                 </TouchableOpacity>
                 <View style={styles.containerimg}>
-                    {image ? (<Image source={{uri: image.uri}} style={styles.image}/>):null}
+                    {image ? (<Image source={{ uri: image.uri }} style={styles.image} />) : null}
                 </View>
-                
-                {image? (
+
+                {image ? (
                     <Text style={styles.skip} onPress={uploadImage}>
                         Upload
                     </Text>
                 ) : null}
-                
-                
+
+
             </View>
         </View>
     )
@@ -160,7 +217,7 @@ const styles = StyleSheet.create({
         height: 184,
         width: 368,
         marginBottom: 30
-    
+
     },
 
 });
