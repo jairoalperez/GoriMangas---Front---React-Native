@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native"
+import {storeData, getData} from '../helpers/asyncStorage'
 
 
 
@@ -37,8 +38,9 @@ const Home = ({ navigation }) => {
 
       <TouchableOpacity
         onPress={() => {
+          storeData('userId', 'nouser')
           navigation.navigate('Profile')
-          localStorage.setItem('userId', 'nouser')
+          getData('userId')
         }}
         style={styles.buttonguest}>
         <Text style={styles.textbuttonr}>

@@ -3,11 +3,13 @@ import { View, StyleSheet, Text, TouchableOpacity, TextInput, Alert } from "reac
 import { useNavigation } from "@react-navigation/native";
 import { useState, useEffect } from "react";
 import axios from 'axios';
+import {storeData, getData} from '../helpers/asyncStorage'
 
 const Login = () => {
 
   useEffect(() => {
     console.log('cargo login')
+    setLoged(0)
   }, [])
 
   const navigation = useNavigation();
@@ -17,6 +19,8 @@ const Login = () => {
     username: '',
     pass: '',
   })
+
+  const [loged, setLoged] = useState(0)
 
   //Se utiliza para setear los parametros del state log
   const handleChangeText = (username, value) => {
@@ -33,11 +37,17 @@ const Login = () => {
         console.log('Conexion Satisfactoria'),
       )
       console.log(res.data)
+      
       if(res.data == 1) {
-        Alert.alert('Login Satisfactorio')
-        console.log('Login Satisfactorio')
-        getuser()
-        navigation.navigate('Profile')
+
+        const cargar = async () => {
+          await Alert.alert('Login Satisfactorio')
+          await console.log('Login Satisfactorio')
+          await fetchgetuser()
+          await navigation.navigate('Profile')
+        }
+        cargar()
+        
       }else {
         Alert.alert('Datos Incorrectos')
         console.log('Datos Incorrectos')
@@ -48,18 +58,15 @@ const Login = () => {
   }
 
   //HTTP Get User By Username
-  const getuser = () => {
     const fetchgetuser = async () => {
       const res = await axios.get('https://backend-mangaread.herokuapp.com/buscar-nombre/' + log.username)
           const datos = res.data
           const result = datos.find(item => item.username === log.username)
-          localStorage.setItem('username', result.username)
-          localStorage.setItem('userId', result.id_usuario)
-          localStorage.setItem('email', result.correo)
-          localStorage.setItem('name', result.nombre)
+          storeData('username', result.username)
+          storeData('userId', result.id_usuario.toString())
+          storeData('email', result.correo)
+          storeData('name', result.nombre)
     }
-    fetchgetuser()
-  }
 
   return (
     <View style={styles.container}>
@@ -108,7 +115,7 @@ const Login = () => {
       <TouchableOpacity
         onPress={() => {
           navigation.navigate('Profile')
-          localStorage.setItem('userId', 'nouser')
+          storeData('userId', 'nouser')
         }}
         style={styles.buttonguest}>
         <Text style={styles.textbuttonl}>
