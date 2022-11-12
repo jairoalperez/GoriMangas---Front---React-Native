@@ -92,9 +92,7 @@ const Login = () => {
 
       <TouchableOpacity
         onPress={() => {
-
           loginapp()
-
         }}
         style={styles.button}>
         <Text style={styles.textbutton}>

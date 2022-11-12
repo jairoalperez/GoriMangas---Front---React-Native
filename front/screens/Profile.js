@@ -61,10 +61,7 @@ const Profile = () => {
                         <TouchableOpacity
                             onPress={() => {
                                 console.log('Presionaste el boton de Configuracion')
-                                /*getData('username').then(result => {
-                                    alert('value: '+result)
-                                })*/
-
+                                
                                 console.log(userId)
                                 console.log(email)
                                 console.log(name)
