@@ -1,7 +1,6 @@
 import { View, Text, StyleSheet, Touchable, TouchableOpacity, Image, TextInput } from 'react-native'
 import React, { useState } from 'react'
 import * as ImagePicker from 'expo-image-picker'
-//import {launchImageLibrary} from 'react-native-image-picker';
 import axios from 'axios'
 
 const ImageUpload = () => {
@@ -11,6 +10,7 @@ const ImageUpload = () => {
         nombre: '',
         autor: '',
         capitulo: '',
+        pagina: '',
     })
 
     const handleChangeText = (nombre, value) => {
@@ -48,6 +48,7 @@ const ImageUpload = () => {
         formData.append('nombre', imgdata.nombre)
         formData.append('autor', imgdata.autor)
         formData.append('capitulo', imgdata.capitulo)
+        formData.append('pagina', imgdata.pagina)
 
         try {
             const res = await axios.post('https://backend-mangaread.herokuapp.com/upload', formData, {
@@ -66,41 +67,9 @@ const ImageUpload = () => {
 
     }
 
-    const loginapp = () => {
-        const fetchlogin = async () => {
-            const res = await axios.post('https://backend-mangaread.herokuapp.com/login', {
-                username: log.username,
-                password: log.pass
-            },
-                console.log('Conexion Satisfactoria'),
-            )
-            console.log(res.data)
-            if (res.data == 1) {
-                Alert.alert('Login Satisfactorio')
-                console.log('Login Satisfactorio')
-                getuser()
-                navigation.navigate('Profile')
-            } else {
-                Alert.alert('Datos Incorrectos')
-                console.log('Datos Incorrectos')
-            }
-
-        }
-        fetchlogin()
-    }
-
-    const fillFormData = () => {
-
-    }
-
-
-
-
     return (
         <View style={styles.container}>
             <View style={styles.containerimg}>
-
-
 
                 <TextInput
                     style={styles.tinputu}
@@ -122,6 +91,13 @@ const ImageUpload = () => {
                     placeholder='Capitulo'
                     placeholderTextColor='gray'
                     onChangeText={(value) => handleChangeText('capitulo', value)} />
+
+                <TextInput
+                    style={styles.tinputp}
+                    keyboardType='default'
+                    placeholder='Pagina'
+                    placeholderTextColor='gray'
+                    onChangeText={(value) => handleChangeText('pagina', value)} />
 
                 <TouchableOpacity onPress={openLibrary} style={styles.uploadBtn}>
                     <Text style={styles.textbutton}>
@@ -196,9 +172,9 @@ const styles = StyleSheet.create({
         width: 250,
         borderRadius: 40,
         backgroundColor: "white",
-    
-      },
-      tinputp: {
+
+    },
+    tinputp: {
         height: 40,
         marginTop: 12,
         padding: 10,
@@ -206,7 +182,7 @@ const styles = StyleSheet.create({
         width: 250,
         borderRadius: 40,
         backgroundColor: "white"
-    
-      },
+
+    },
 
 });

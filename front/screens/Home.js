@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native"
 import {storeData, getData} from '../helpers/asyncStorage'
 
@@ -6,8 +6,13 @@ import {storeData, getData} from '../helpers/asyncStorage'
 
 const Home = ({ navigation }) => {
 
+  
+
   useEffect(() => {
     console.log('cargo home')
+
+
+
   }, [])
 
   return (

@@ -1,51 +1,57 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import NavBar from '../components/NavBar';
-import axios from 'axios';
 import { storeData, getData } from '../helpers/asyncStorage'
-import { useNavigation } from "@react-navigation/native";
+import axios from 'axios';
 
-
-const Dashboard = () => {
-
-  const navigation = useNavigation();
+const Reader = () => {
 
   const [elements, setElements] = useState([])
+  const [mangaselected, setMangaSelected] = useState('')
+  const [chapterselected, setChapterSelected] = useState('')
+  
 
   useEffect(() => {
-    console.log('cargo dashboard')
+    console.log('cargo reader')
 
-    async function searchImage() {
-      await axios.get('https://backend-mangaread.herokuapp.com/mostrar-mangas')
-        .then(res => {
-          setElements(res.data)
-        })
-
-    }
-    searchImage()
+    getData('mangaselected').then(result => {
+        setMangaSelected(result)
+    })
+    getData('chapterselected').then(result => {
+        setChapterSelected(result)
+    })
 
   }, [])
+
+  useEffect(() => {
+    console.log(mangaselected)
+    console.log(chapterselected)
+
+    if (mangaselected !== '' && chapterselected !== ''){
+        async function searchImage() {
+            await axios.get('https://backend-mangaread.herokuapp.com/buscar-cap/'+mangaselected+'/'+chapterselected)
+              .then(res => {
+                setElements(res.data)
+              })
+          }
+          searchImage()
+    }
+
+  }, [mangaselected, chapterselected])
 
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.containerscroll}>
         <View style={styles.containerMangas}>
-          <Text style={styles.textS}>Manga List</Text>
+          <Text style={styles.textS}>{mangaselected}</Text>
+          <Text style={styles.textC}>Capitulo: {chapterselected}</Text>
           {elements.map(elemento => {
             return (
-              <View>
-                <TouchableOpacity
-                  onPress={() => {
-
-                    storeData('mangaselected', elemento.manga)
-                    navigation.navigate('Chapters')
-
-                  }}
-                  style={styles.button}>
-                  <Text style={styles.textbutton}>
-                    {elemento.manga}
-                  </Text>
-                </TouchableOpacity>
+                <View>
+                <Image
+                  style={{ width: 380, height: 571, marginTop: 5, marginBottom: 5 }}
+                  source={{ uri: elemento.url }}
+                />
               </View>
             )
           })}
@@ -56,7 +62,7 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default Reader
 
 /*---------------------------------------------------------------------------------------
 ------------------------------------- Estilos -------------------------------------------
@@ -73,7 +79,7 @@ const styles = StyleSheet.create({
   containerscroll: {
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginTop: 80,
+    marginTop: 50,
     width: 420
 
   },
@@ -86,7 +92,11 @@ const styles = StyleSheet.create({
   },
   textS: {
     fontSize: 50,
-    marginBottom: 80,
+    fontWeight: 'bold',
+  },
+  textC: {
+    fontSize: 25,
+    marginBottom: 20,
     fontWeight: 'bold',
   },
   button: {
