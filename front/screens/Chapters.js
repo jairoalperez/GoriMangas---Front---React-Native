@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, ScrollView, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import NavBar from '../components/NavBar';
 import { storeData, getData } from '../helpers/asyncStorage'
@@ -11,12 +11,16 @@ const Chapters = () => {
 
     const [elements, setElements] = useState([])
     const [mangaselected, setMangaSelected] = useState('')
+    const [userId, setUserId] = useState('') 
 
     useEffect(() => {
         console.log('cargo chapters')
 
         getData('mangaselected').then(result => {
             setMangaSelected(result)
+        })
+        getData('userId').then(result => {
+            setUserId(result)
         })
 
     }, [])
@@ -36,7 +40,15 @@ const Chapters = () => {
 
     }, [mangaselected])
 
-    const setChapter = () => {
+    const followManga = async () => {
+        const res = await axios.post('https://backend-mangaread.herokuapp.com/registro', {
+          id_usuario: userId,
+          seguido: mangaselected,
+        },
+        console.log('Conexion Satisfactoria')
+        )
+        console.log(res.data)
+        Alert.alert('Siguiendo!')
     }
 
     return (
@@ -44,6 +56,20 @@ const Chapters = () => {
             <ScrollView contentContainerStyle={styles.containerscroll}>
                 <View style={styles.containerMangas}>
                     <Text style={styles.textS}>{mangaselected}</Text>
+                    <TouchableOpacity
+                                    onPress={() => {
+                                        if (userId === 'nouser') {
+                                            Alert.alert('registrate para poder seguir mangas!') 
+                                        } else {
+                                            followManga()
+                                        }
+                                    }}
+                                    style={styles.buttonseguir}>
+                                    <Text style={styles.textbutton}>
+                                        Seguir
+                                    </Text>
+                                </TouchableOpacity>
+
                     {elements.map(elemento => {
                         return (
                             <View>
@@ -97,7 +123,7 @@ const styles = StyleSheet.create({
     },
     textS: {
         fontSize: 50,
-        marginBottom: 80,
+        marginBottom: 10,
         fontWeight: 'bold',
     },
     button: {
@@ -109,6 +135,17 @@ const styles = StyleSheet.create({
         alignItems: "center",
         height: 75,
         width: 250,
+
+    },
+    buttonseguir: {
+        backgroundColor: "black",
+        padding: 10,
+        marginBottom: 70,
+        borderRadius: 30,
+        justifyContent: "center",
+        alignItems: "center",
+        height: 50,
+        width: 100,
 
     },
     textbutton: {

@@ -60,7 +60,6 @@ const Profile = () => {
                     <View style={styles.containerbotones}>
                         <TouchableOpacity
                             onPress={() => {
-                                console.log('Presionaste el boton de Configuracion')
                                 
                                 console.log(userId)
                                 console.log(email)
@@ -69,13 +68,13 @@ const Profile = () => {
                             }}
                             style={styles.button}>
                             <Text style={styles.textbutton}>
-                                Configuracion
+                                Subir Manga
                             </Text>
                         </TouchableOpacity>
                     </View>
 
                     <Text style={styles.mangas}>
-                        Mangas Guardados
+                        Mangas Seguidos
                     </Text>
 
                 </ScrollView>
@@ -106,14 +105,15 @@ const styles = StyleSheet.create({
     containerusername: {
         justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: "whitesmoke",
-        width: '100%'
+        backgroundColor: "gold",
+        width: '100%',
+        marginTop: 50,
 
     },
     containerbio: {
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
-        backgroundColor: "whitesmoke",
+        backgroundColor: "gold",
         textAlign: 'left',
         padding: 10,
         marginBottom: 5,
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: "whitesmoke",
+        backgroundColor: "gold",
         marginBottom: 20
 
     },
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
 
     },
     button: {
-        backgroundColor: "darkslategrey",
+        backgroundColor: "black",
         padding: 10,
         borderRadius: 40,
         justifyContent: "center",
