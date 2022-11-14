@@ -25,5 +25,7 @@ La APP permite:
 
 Link del Backend: https://github.com/AxelGabbriel/backend-mangaread-clone
 
+Link de descarga del APK: https://www.mediafire.com/file/09dm9wm91pya2dg/GoriMangas.apk/file
+
 Link del servidor en Heroku: https://backend-mangaread.herokuapp.com
 
