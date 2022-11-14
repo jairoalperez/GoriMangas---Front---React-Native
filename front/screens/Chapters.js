@@ -41,7 +41,7 @@ const Chapters = () => {
     }, [mangaselected])
 
     const followManga = async () => {
-        const res = await axios.post('https://backend-mangaread.herokuapp.com/registro', {
+        const res = await axios.post('https://backend-mangaread.herokuapp.com/crear-seguido', {
           id_usuario: userId,
           seguido: mangaselected,
         },

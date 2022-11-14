@@ -1,14 +1,29 @@
-import { View, Text, StyleSheet, Touchable, TouchableOpacity, Image, TextInput } from 'react-native'
-import React, { useState } from 'react'
+import { View, Text, StyleSheet, Touchable, TouchableOpacity, Image, TextInput, Alert } from 'react-native'
+import React, { useState, useEffect } from 'react'
 import * as ImagePicker from 'expo-image-picker'
 import axios from 'axios'
+import NavBar from '../components/NavBar';
+import { storeData, getData } from '../helpers/asyncStorage'
 
 const ImageUpload = () => {
+
+    const [userId, setUserId] = useState('')
+
+    useEffect(() => {
+        console.log('cargo imageupload')
+
+        getData('userId').then(result => {
+            setUserId(result)
+        })
+    }, [])
+
+    useEffect(() => {
+        console.log(userId)
+    }, [userId])
 
     const [image, setImage] = useState('')
     const [imgdata, setImgdata] = useState({
         nombre: '',
-        autor: '',
         capitulo: '',
         pagina: '',
     })
@@ -46,7 +61,7 @@ const ImageUpload = () => {
         const formData = new FormData()
         formData.append("manga", mangadata)
         formData.append('nombre', imgdata.nombre)
-        formData.append('autor', imgdata.autor)
+        formData.append('autor', userId)
         formData.append('capitulo', imgdata.capitulo)
         formData.append('pagina', imgdata.pagina)
 
@@ -60,6 +75,7 @@ const ImageUpload = () => {
                 console.log('conexion satisfactoria')
             )
             console.log(res.data)
+            Alert.alert(res.data)
 
         } catch (error) {
             console.log(error.message)
@@ -70,6 +86,7 @@ const ImageUpload = () => {
     return (
         <View style={styles.container}>
             <View style={styles.containerimg}>
+            <Text style={styles.textS}>Subir Pagina</Text>
 
                 <TextInput
                     style={styles.tinputu}
@@ -77,13 +94,6 @@ const ImageUpload = () => {
                     placeholder='Titulo del Manga'
                     placeholderTextColor='gray'
                     onChangeText={(value) => handleChangeText('nombre', value)} />
-
-                <TextInput
-                    style={styles.tinputp}
-                    keyboardType='default'
-                    placeholder='Autor del Manga'
-                    placeholderTextColor='gray'
-                    onChangeText={(value) => handleChangeText('autor', value)} />
 
                 <TextInput
                     style={styles.tinputp}
@@ -116,6 +126,7 @@ const ImageUpload = () => {
 
 
             </View>
+            <NavBar />
         </View>
     )
 }
@@ -154,9 +165,10 @@ const styles = StyleSheet.create({
         color: "white",
     },
     skip: {
-        fontSize: 20,
+        fontSize: 25,
         color: "black",
-        textAlign: 'center'
+        textAlign: 'center',
+        fontWeight: 'bold'
     },
     image: {
         height: 184,
@@ -184,5 +196,10 @@ const styles = StyleSheet.create({
         backgroundColor: "white"
 
     },
+    textS: {
+        fontSize: 50,
+        marginBottom: 10,
+        fontWeight: 'bold',
+      },
 
 });
