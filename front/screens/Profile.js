@@ -5,6 +5,7 @@ import { storeData, getData } from '../helpers/asyncStorage'
 import { useNavigation } from "@react-navigation/native";
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import logo from '../assets/logonaruto.png'
 
 const Profile = () => {
 
@@ -67,14 +68,18 @@ const Profile = () => {
             searchMangas()
             console.log('busqueda ready')
         }
-        
+
     }, [userId])
 
-    
+
 
     if (userId == 'nouser') {
         return (
             <View style={styles.container}>
+                <Image
+                    source={logo}
+                    style={styles.image}
+                />
                 <TouchableOpacity
                     onPress={() => {
                         navigation.navigate('Register')
@@ -92,10 +97,10 @@ const Profile = () => {
             <View style={styles.container}>
 
                 <ScrollView contentContainerStyle={styles.containerusername}
-                refreshControl={<RefreshControl
-                refreshing={refresh}
-                onRefresh={()=>pullMe()}
-                />}
+                    refreshControl={<RefreshControl
+                        refreshing={refresh}
+                        onRefresh={() => pullMe()}
+                    />}
                 >
 
                     <Text style={styles.username}>{username}</Text>
@@ -144,9 +149,9 @@ const Profile = () => {
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     onPress={() => {
-                                        console.log('dejar de seguir '+elemento.seguido)
+                                        console.log('dejar de seguir ' + elemento.seguido)
                                         const deleteFollow = async () => {
-                                            const res = await axios.delete('https://backend-mangaread.herokuapp.com/borrar-seguido/'+userId+'/'+elemento.seguido)
+                                            const res = await axios.delete('https://backend-mangaread.herokuapp.com/borrar-seguido/' + userId + '/' + elemento.seguido)
                                             const newdata = (elements.filter(element => element.seguido !== elemento.seguido))
                                             setElements(newdata)
                                         }
@@ -213,8 +218,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: "center",
         alignItems: "center",
-    
-      },
+
+    },
     username: {
         marginTop: 20,
         fontSize: 50,
@@ -308,5 +313,11 @@ const styles = StyleSheet.create({
         marginTop: 10
 
     },
+    image: {
+        height: 309, 
+        width: 285,
+        marginBottom: 80,
+    
+      },
 
 });

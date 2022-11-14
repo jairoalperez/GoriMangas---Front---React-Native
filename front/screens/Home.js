@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native"
-import {storeData, getData} from '../helpers/asyncStorage'
-
-
+import { View, StyleSheet, Text, TouchableOpacity, Image } from "react-native"
+import { storeData, getData } from '../helpers/asyncStorage'
+import logo from '../assets/logonaruto.png'
 
 const Home = ({ navigation }) => {
 
-  
-
   useEffect(() => {
     console.log('cargo home')
-
-
-
   }, [])
 
   return (
@@ -20,6 +14,11 @@ const Home = ({ navigation }) => {
       <Text style={styles.title}>
         GoriMangas
       </Text>
+
+      <Image 
+      source={logo}
+      style={styles.image}
+      />
 
       <TouchableOpacity
         onPress={() => {
@@ -73,10 +72,10 @@ const styles = StyleSheet.create({
 
   },
   title: {
-    fontSize: 40,
+    fontSize: 60,
     marginBottom: 50,
     fontWeight: 'bold',
-    color: 'darkgoldenrod'
+    color: 'darkgoldenrod',
 
   },
   image: {
@@ -125,6 +124,11 @@ const styles = StyleSheet.create({
   textbuttonr: {
     fontSize: 20,
     color: "white",
+
+  },
+  image: {
+    height: 309, 
+    width: 285,
 
   },
 
