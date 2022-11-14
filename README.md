@@ -1,5 +1,7 @@
 Frontend - GoriMangas - React Native
 
+![logonaruto](https://user-images.githubusercontent.com/66136580/201594394-1bed741b-2cc7-43d5-8567-39cf0e93b630.png)
+
 Proyecto #2 para Programacion de Dispositivos Moviles
 
 Universidad Rafael Urdaneta - Facultad de Ingenieria - Escuela de Ingenieria de Computacion
@@ -24,3 +26,4 @@ La APP permite:
 Link del Backend: https://github.com/AxelGabbriel/backend-mangaread-clone
 
 Link del servidor en Heroku: https://backend-mangaread.herokuapp.com
+
