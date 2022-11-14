@@ -114,6 +114,15 @@ const Profile = () => {
                                 Subir Manga
                             </Text>
                         </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => {
+                                navigation.navigate('MangasB')
+                            }}
+                            style={styles.buttond}>
+                            <Text style={styles.textbutton}>
+                                Borrar Manga
+                            </Text>
+                        </TouchableOpacity>
                     </View>
 
                     <Text style={styles.mangas}>
@@ -138,15 +147,10 @@ const Profile = () => {
                                         console.log('dejar de seguir '+elemento.seguido)
                                         const deleteFollow = async () => {
                                             const res = await axios.delete('https://backend-mangaread.herokuapp.com/borrar-seguido/'+userId+'/'+elemento.seguido)
-
                                             const newdata = (elements.filter(element => element.seguido !== elemento.seguido))
                                             setElements(newdata)
-
                                         }
                                         deleteFollow()
-
-                                        
-
                                     }}
                                     style={styles.buttonsf}>
                                     <Icon name="close" size={30} color="white" />
@@ -291,6 +295,17 @@ const styles = StyleSheet.create({
         alignItems: "center",
         height: 75,
         width: 75,
+
+    },
+    buttond: {
+        backgroundColor: "red",
+        padding: 10,
+        borderRadius: 40,
+        justifyContent: "center",
+        alignItems: "center",
+        height: 50,
+        width: 150,
+        marginTop: 10
 
     },
 

@@ -3,8 +3,11 @@ import React from 'react'
 import { useState, useEffect } from "react";
 import NavBar from '../components/NavBar';
 import axios from 'axios'
+import { storeData } from '../helpers/asyncStorage';
+import { useNavigation } from "@react-navigation/native";
 
 const Manga = () => {
+  const navigation = useNavigation();
 
   const [search, setSearch] = useState({
     word: '',
@@ -19,7 +22,7 @@ const Manga = () => {
   }
 
   const searchImage = async () => {
-    const res = await axios.get('https://backend-mangaread.herokuapp.com/buscar-manga/' + search.word)
+    const res = await axios.get('https://backend-mangaread.herokuapp.com/mostrar-caps/' + search.word)
     const datos = res.data
     setElements({ element: datos })
   }
@@ -44,17 +47,23 @@ const Manga = () => {
             Buscar
           </Text>
         </TouchableOpacity>
-        <View style={styles.containerMOVIES}>
+        <View>
           {elements.element.map(elemento => {
             return (
               <View>
-                <Text>
-                  Capitulo: {elemento.capitulo}, Manga: {elemento.manga}
-                </Text>
-                <Image
-                  style={{ width: 200, height: 400 }}
-                  source={{ uri: elemento.url }}
-                />
+                <TouchableOpacity
+                  onPress={() => {
+                    storeData('chapterselected', elemento.capitulo.toString())
+                    storeData('mangaselected', search.word)
+                    navigation.navigate("Reader")
+                    console.log(elemento.capitulo.toString())
+                    console.log(search.word)
+                  }}
+                  style={styles.buttonc}>
+                  <Text style={styles.textbuttonc}>
+                    Capitulo {elemento.capitulo}
+                  </Text>
+                </TouchableOpacity>
               </View>
             )
           })}
@@ -85,13 +94,6 @@ const styles = StyleSheet.create({
     width: 420
 
   },
-  containerMOVIES: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "darkgoldenrod",
-    marginTop: 10,
-    marginBottom: 10,
-  },
   tinputu: {
     height: 40,
     marginTop: 80,
@@ -119,5 +121,21 @@ const styles = StyleSheet.create({
     color: "white",
 
   },
+  buttonc: {
+    backgroundColor: "darkgoldenrod",
+    padding: 10,
+    marginBottom: 15,
+    borderRadius: 15,
+    justifyContent: "center",
+    alignItems: "center",
+    height: 70,
+    width: 250,
+
+},
+textbuttonc: {
+    fontSize: 20,
+    color: "white",
+
+},
 
 });
